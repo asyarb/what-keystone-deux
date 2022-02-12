@@ -1,0 +1,15 @@
+{
+  "include": ["./src/**/*.ts"],
+  "exclude": ["./node_modules"],
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "noEmit": true,
+    "allowJs": false,
+    "strict": true,
+    "strictNullChecks": true,
+    "incremental": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node"
+  }
+}
