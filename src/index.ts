@@ -1,9 +1,9 @@
 import { JellyCommands } from "jellycommands"
 import { Intents } from "discord.js"
-import { DEBUG, DEV_GUILD_ID, DISCORD_TOKEN, IS_DEV } from "./env"
+import { DEBUG, DEV_GUILD_ID, DISCORD_TOKEN, IS_DEV } from "./env.js"
 
 const client = new JellyCommands({
-  commands: "./commands",
+  commands: "dist/commands",
   clientOptions: {
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
   },

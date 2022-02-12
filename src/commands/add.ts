@@ -1,4 +1,5 @@
 import { command } from "jellycommands"
+import { IS_DEV } from "../env.js"
 
 export default command({
   name: "add",
@@ -34,7 +35,10 @@ export default command({
     },
   ],
 
-  run: () => {
-    throw new Error("Unimplemented!")
+  dev: IS_DEV,
+  global: !IS_DEV,
+
+  run: async ({ interaction }) => {
+    await interaction.reply({ content: "hello" })
   },
 })
