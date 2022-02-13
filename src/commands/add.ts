@@ -1,4 +1,5 @@
 import { command } from "jellycommands"
+import { db } from "../db/client.js"
 import { IS_DEV } from "../env.js"
 
 export default command({
@@ -39,6 +40,28 @@ export default command({
   global: !IS_DEV,
 
   run: async ({ interaction }) => {
-    await interaction.reply({ content: "hello" })
+    const { guild: discordGuild } = interaction
+    if (!discordGuild) {
+      return await interaction.reply({
+        content: "Something went wrong with this request.",
+      })
+    }
+
+    await interaction.deferReply()
+
+    const guild = await db.guild.upsert({
+      create: {
+        discordId: discordGuild.id,
+        name: discordGuild.name,
+      },
+      update: {
+        name: discordGuild.name,
+      },
+      where: { discordId: discordGuild.id },
+    })
+
+    console.log(guild)
+
+    await interaction.editReply({ content: "Created guild!" })
   },
 })

@@ -1,5 +1,8 @@
 dist/
 node_modules/
 .jellycommands/
+edgeql-js/
 
 .env
+
+src/db/generated

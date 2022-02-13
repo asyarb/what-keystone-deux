@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Dungeon {
+  NECROTIC_WAKE
+  PLAGUEFALL
+  MISTS_OF_TIRNA_SCITHE
+  HALLS_OF_ATONEMENT
+  THEATER_OF_PAIN
+  DE_OTHER_SIDE
+  SPIRES_OF_ASCENSION
+  SANGUINE_DEPTHS
+  TAZAVESH_UPPER
+  TAZAVESH_LOWER
+}
+
+model Guild {
+  name      String
+  discordId String @id @unique @map("discord_id")
+
+  Key Key[]
+  @@map("guilds")
+}
+
+model Key {
+  id        String  @id @default(uuid())
+  character String
+  dungeon   Dungeon
+  level     Int
+  guild     Guild   @relation(fields: [guildDiscordId], references: [discordId])
+
+  guildDiscordId String
+  @@map("keys")
+}
