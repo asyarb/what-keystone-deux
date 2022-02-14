@@ -1,6 +1,7 @@
 import { type Dungeon } from "@prisma/client"
 import { command } from "jellycommands"
 import { db } from "../db/client.js"
+import { createEmbed } from "../discord/embed.js"
 import { IS_DEV } from "../env.js"
 
 export default command({
@@ -85,6 +86,14 @@ export default command({
       },
     })
 
-    await interaction.editReply({ content: `Added keystone for ${character}.` })
+    const embed = await createEmbed({
+      guild,
+      sortedBy: "level",
+    })
+
+    await interaction.editReply({
+      content: `Added keystone for ${character}.`,
+      embeds: [embed],
+    })
   },
 })
