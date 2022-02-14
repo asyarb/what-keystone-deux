@@ -1,3 +1,4 @@
+import { type Dungeon } from "@prisma/client"
 import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { IS_DEV } from "../env.js"
@@ -12,14 +13,14 @@ export default command({
       description: "The dungeon to add.",
       required: true,
       choices: [
-        { name: "Necrotic Wake", value: "necrotic_wake" },
-        { name: "Plaguefall", value: "plaguefall" },
-        { name: "Mists of Tirna Scithe", value: "mists_of_tirna_scithe" },
-        { name: "Halls of Atonement", value: "halls_of_atonement" },
-        { name: "Theater of Pain", value: "theater_of_pain" },
-        { name: "De Other Side", value: "de_other_side" },
-        { name: "Spires of Ascension", value: "spires_of_ascension" },
-        { name: "Sanguine Depths", value: "sanguine_depths" },
+        { name: "Necrotic Wake", value: "NECROTIC_WAKE" },
+        { name: "Plaguefall", value: "PLAGUEFALL" },
+        { name: "Mists of Tirna Scithe", value: "MISTS_OF_TIRNA_SCITHE" },
+        { name: "Halls of Atonement", value: "HALLS_OF_ATONEMENT" },
+        { name: "Theater of Pain", value: "THEATER_OF_PAIN" },
+        { name: "De Other Side", value: "DE_OTHER_SIDE" },
+        { name: "Spires of Ascension", value: "SPIRES_OF_ASCENSION" },
+        { name: "Sanguine Depths", value: "SANGUINE_DEPTHS" },
       ],
     },
     {
@@ -60,8 +61,30 @@ export default command({
       where: { discordId: discordGuild.id },
     })
 
-    console.log(guild)
+    const options = interaction.options
+    const character = options.getString("character", true)
+    const level = options.getInteger("level", true)
+    const dungeon = options.getString("dungeon", true) as Dungeon
 
-    await interaction.editReply({ content: "Created guild!" })
+    await db.key.upsert({
+      create: {
+        character,
+        dungeon,
+        level,
+        guildDiscordId: guild.discordId,
+      },
+      update: {
+        dungeon,
+        level,
+      },
+      where: {
+        character_guildDiscordId: {
+          character,
+          guildDiscordId: guild.discordId,
+        },
+      },
+    })
+
+    await interaction.editReply({ content: `Added keystone for ${character}.` })
   },
 })

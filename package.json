@@ -8,7 +8,9 @@
     "build": "tsup",
     "tsc": "tsc",
     "dev": "NODE_ENV=development node .",
-    "start": "NODE_ENV=production node ."
+    "start": "NODE_ENV=production node .",
+    "generate": "pnpm prisma generate",
+    "postinstall": "pnpm generate"
   },
   "keywords": [
     "discord",
