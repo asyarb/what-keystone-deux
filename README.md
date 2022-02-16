@@ -6,6 +6,7 @@ GnM, but could be used by other guilds if desired.
 ## Requirements
 
 - Node v17
+- PNPM
 - Postgres
 
 ## Documentation
@@ -20,3 +21,47 @@ techstack:
 - [tsup](https://tsup.egoist.sh/) – Bundler/Transpiler
 - [Prisma](https://www.prisma.io/docs/) – Database tooling (ORM, Migrations)
 - [Railway](https://docs.railway.app/) – Hosting
+
+## Getting Started
+
+The following are ran from the root of the project.
+
+```bash
+# Define environment variables.
+cp .env.example .env
+
+# Install deps
+pnpm i
+
+# Transpile Code
+pnpm build
+
+# To run in "Development Mode"
+pnpm dev
+
+# To run in productoin
+pnpm start
+```
+
+### Database
+
+Currently, the What Keystone bot (that I run, anyway) is hosted on Railway and
+utilizes their Postgres plugin to enable a managed database.
+
+Set the `DATABASE_URL` in `.env` with the connection string Railway provides, or
+supply your own local Postgres instance. Keep in mind that our current Railway
+config has remote `development` and `production` databases for use.
+
+#### Migrations
+
+Migrations are managed using
+[Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate).
+Refer to their docs for more information, but the upshot is:
+
+```bash
+# In a development environment, run the following to migrate a local database
+# up:
+pnpm prisma migrate dev
+```
+
+Refer to Prisma's docs for information on migrating a production database.
