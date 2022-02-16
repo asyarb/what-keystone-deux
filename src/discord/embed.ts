@@ -3,7 +3,7 @@ import { MessageEmbed } from "discord.js"
 import { stripIndent } from "common-tags"
 import { db } from "../db/client.js"
 import { upperFirst } from "../utils/upperFirst.js"
-import { getDungeonName } from "../db/dunegon.js"
+import { getDungeonName } from "../db/dungeon.js"
 
 interface CreateEmbedMessageArgs {
   guildName: string
