@@ -49,8 +49,7 @@ Currently, the What Keystone bot (that I run, anyway) is hosted on Railway and
 utilizes their Postgres plugin to enable a managed database.
 
 Set the `DATABASE_URL` in `.env` with the connection string Railway provides, or
-supply your own local Postgres instance. Keep in mind that our current Railway
-config has remote `development` and `production` databases for use.
+supply your own local Postgres instance.
 
 #### Migrations
 

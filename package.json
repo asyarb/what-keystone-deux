@@ -9,6 +9,7 @@
     "tsc": "tsc",
     "dev": "NODE_ENV=development node .",
     "start": "NODE_ENV=production node .",
+    "migrate:prod": "pnpm prisma migrate deploy",
     "generate": "pnpm prisma generate",
     "postinstall": "pnpm generate"
   },

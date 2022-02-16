@@ -1,3 +1,5 @@
+import "dotenv/config"
+
 export const DISCORD_TOKEN = process.env.DISCORD_TOKEN!
 if (!DISCORD_TOKEN) throw new Error("DISCORD_TOKEN not defined in .env!")
 
