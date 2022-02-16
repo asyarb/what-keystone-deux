@@ -2,6 +2,7 @@ import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
 import { noop } from "../utils/noop.js"
+import { upperFirst } from "../utils/upperFirst.js"
 
 export default command({
   name: "delete",
@@ -51,7 +52,7 @@ export default command({
     })
 
     return await interaction.editReply({
-      content: `Deleted ${character}'s keystone!`,
+      content: `Deleted ${upperFirst(character)}'s keystone!`,
       embeds: [embed],
     })
   },
