@@ -12,6 +12,7 @@
     "tsc": "tsc",
     "dev": "NODE_ENV=development node .",
     "start": "NODE_ENV=production node .",
+    "start:prod": "npm run migrate:prod && NODE_ENV=production node .",
     "migrate:prod": "prisma migrate deploy",
     "generate": "prisma generate",
     "postinstall": "npm run generate"
