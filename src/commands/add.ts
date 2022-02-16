@@ -22,6 +22,8 @@ export default command({
         { name: "De Other Side", value: "DE_OTHER_SIDE" },
         { name: "Spires of Ascension", value: "SPIRES_OF_ASCENSION" },
         { name: "Sanguine Depths", value: "SANGUINE_DEPTHS" },
+        { name: "Tazavesh Upper (Placeholder)", value: "TAZAVESH_UPPER" },
+        { name: "Tazavesh Lower (Placeholder)", value: "TAZAVESH_LOWER" },
       ],
     },
     {
@@ -42,8 +44,7 @@ export default command({
   global: !IS_DEV,
 
   run: async ({ interaction }) => {
-    const { guild: discordGuild } = interaction
-    if (!discordGuild) {
+    if (!interaction.guild) {
       return await interaction.reply({
         content: "Something went wrong with this request.",
       })
@@ -53,13 +54,13 @@ export default command({
 
     const guild = await db.guild.upsert({
       create: {
-        discordId: discordGuild.id,
-        name: discordGuild.name,
+        discordId: interaction.guild.id,
+        name: interaction.guild.name,
       },
       update: {
-        name: discordGuild.name,
+        name: interaction.guild.name,
       },
-      where: { discordId: discordGuild.id },
+      where: { discordId: interaction.guild.id },
     })
 
     const options = interaction.options
@@ -87,7 +88,8 @@ export default command({
     })
 
     const embed = await createEmbed({
-      guild,
+      guildDiscordId: guild.discordId,
+      guildName: guild.name,
       sortedBy: "level",
     })
 

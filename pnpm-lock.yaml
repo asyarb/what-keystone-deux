@@ -11,6 +11,7 @@ specifiers:
   dotenv: ^16.0.0
   eslint: ^8.8.0
   jellycommands: ^1.0.0-next.19
+  kleur: ^4.1.4
   prettier: ^2.5.1
   prisma: ^3.9.2
   tsup: ^5.11.13
@@ -21,6 +22,7 @@ dependencies:
   common-tags: 1.8.2
   discord.js: 13.6.0
   jellycommands: 1.0.0-next.19
+  kleur: 4.1.4
 
 devDependencies:
   '@types/common-tags': 1.8.1
@@ -1167,6 +1169,11 @@ packages:
   /json-stable-stringify-without-jsonify/1.0.1:
     resolution: {integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=}
     dev: true
+
+  /kleur/4.1.4:
+    resolution: {integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==}
+    engines: {node: '>=6'}
+    dev: false
 
   /levn/0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}

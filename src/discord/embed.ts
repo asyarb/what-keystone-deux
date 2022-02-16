@@ -1,12 +1,15 @@
-import { type Guild, type Key } from "@prisma/client"
+import { type Key } from "@prisma/client"
 import { MessageEmbed } from "discord.js"
 import { stripIndent } from "common-tags"
 import { db } from "../db/client.js"
 import { upperFirst } from "../utils/upperFirst.js"
+import { getDungeonName } from "../db/dunegon.js"
 
 interface CreateEmbedMessageArgs {
-  guild: Guild
+  guildName: string
+  guildDiscordId: string
   sortedBy?: "dungeon" | "level"
+  sortDirection?: "asc" | "desc"
 }
 
 function createCharacterList(keys: Key[]) {
@@ -16,7 +19,7 @@ function createCharacterList(keys: Key[]) {
 }
 
 function createDungeonList(keys: Key[]) {
-  return keys.map((key) => key.dungeon).join("\n") || "None"
+  return keys.map((key) => getDungeonName(key.dungeon)).join("\n") || "None"
 }
 
 function createLevelList(keys: Key[]) {
@@ -24,17 +27,20 @@ function createLevelList(keys: Key[]) {
 }
 
 export async function createEmbed({
-  guild,
+  guildName,
+  guildDiscordId,
   sortedBy = "level",
+  sortDirection = "desc",
 }: CreateEmbedMessageArgs): Promise<MessageEmbed> {
   //@ts-expect-error - Something weird with prisma types.
   const keys = (await db.key.findMany({
-    where: { guildDiscordId: guild.discordId },
+    where: { guildDiscordId: guildDiscordId },
+    orderBy: { [sortedBy]: sortDirection },
   })) as Key[]
 
   return new MessageEmbed()
     .setColor("BLUE")
-    .setTitle(`Keystones for ${guild.name}`)
+    .setTitle(`Keystones for ${guildName}`)
     .setDescription(
       stripIndent`
         Sorted by ${sortedBy}.
@@ -60,6 +66,6 @@ export async function createEmbed({
         inline: true,
       },
     ])
-    .setFooter("What Keystone bot")
+    .setFooter({ text: "What Keystone Bot" })
     .setTimestamp()
 }

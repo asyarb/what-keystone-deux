@@ -35,6 +35,7 @@
     "@prisma/client": "^3.9.2",
     "common-tags": "^1.8.2",
     "discord.js": "^13.6.0",
-    "jellycommands": "^1.0.0-next.19"
+    "jellycommands": "^1.0.0-next.19",
+    "kleur": "^4.1.4"
   }
 }

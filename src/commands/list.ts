@@ -1,0 +1,38 @@
+import { command } from "jellycommands"
+import { createEmbed } from "../discord/embed.js"
+import { IS_DEV } from "../env.js"
+
+export default command({
+  name: "list",
+  description: "Display the list of keystones.",
+  options: [
+    {
+      type: "STRING",
+      name: "sort",
+      description: "The criteria to sort by.",
+      required: true,
+      choices: [
+        { name: "Level", value: "level" },
+        { name: "Dungeon", value: "dungeon" },
+      ],
+    },
+  ],
+
+  dev: IS_DEV,
+  global: !IS_DEV,
+
+  run: async ({ interaction }) => {
+    if (!interaction.guild) return
+
+    const options = interaction.options
+    const sort = options.getString("sort", true) as "dungeon" | "level"
+
+    const embed = await createEmbed({
+      guildDiscordId: interaction.guild.id,
+      guildName: interaction.guild?.name,
+      sortedBy: sort,
+    })
+
+    await interaction.reply({ embeds: [embed] })
+  },
+})
