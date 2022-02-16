@@ -2,7 +2,6 @@ import { MessageActionRow, MessageButton } from "discord.js"
 import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
-import { IS_DEV } from "../env.js"
 import { pluralize } from "../utils/pluralize.js"
 
 const ONE_MINUTE = 60 * 1000
@@ -29,8 +28,7 @@ export default command({
   name: "clear",
   description: "Delete all Keystones for your guild.",
 
-  dev: IS_DEV,
-  global: !IS_DEV,
+  global: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {

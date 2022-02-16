@@ -2,7 +2,6 @@ import { type Dungeon } from "@prisma/client"
 import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
-import { IS_DEV } from "../env.js"
 
 export default command({
   name: "add",
@@ -40,8 +39,7 @@ export default command({
     },
   ],
 
-  dev: IS_DEV,
-  global: !IS_DEV,
+  global: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {

@@ -1,6 +1,5 @@
 import { command } from "jellycommands"
 import { createEmbed } from "../discord/embed.js"
-import { IS_DEV } from "../env.js"
 
 export default command({
   name: "list",
@@ -18,8 +17,7 @@ export default command({
     },
   ],
 
-  dev: IS_DEV,
-  global: !IS_DEV,
+  global: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {

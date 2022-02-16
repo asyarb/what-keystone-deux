@@ -17,7 +17,7 @@ export default command({
   ],
 
   dev: IS_DEV,
-  global: !IS_DEV,
+  global: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {
