@@ -4,14 +4,17 @@
   "description": "Discord bot for managing keystones in World of Warcraft",
   "type": "module",
   "main": "dist/index.js",
+  "engines": {
+    "node": ">=16"
+  },
   "scripts": {
     "build": "tsup",
     "tsc": "tsc",
     "dev": "NODE_ENV=development node .",
     "start": "NODE_ENV=production node .",
-    "migrate:prod": "pnpm prisma migrate deploy",
-    "generate": "pnpm prisma generate",
-    "postinstall": "pnpm generate"
+    "migrate:prod": "prisma migrate deploy",
+    "generate": "prisma generate",
+    "postinstall": "npm run generate"
   },
   "keywords": [
     "discord",

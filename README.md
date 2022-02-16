@@ -6,7 +6,6 @@ GnM, but could be used by other guilds if desired.
 ## Requirements
 
 - Node v17
-- PNPM
 - Postgres
 
 ## Documentation
@@ -31,16 +30,16 @@ The following are ran from the root of the project.
 cp .env.example .env
 
 # Install deps
-pnpm i
+npm i
 
 # Transpile Code
 pnpm build
 
 # To run in "Development Mode"
-pnpm dev
+npm run dev
 
 # To run in productoin
-pnpm start
+npm run start
 ```
 
 ### Database
@@ -60,7 +59,7 @@ Refer to their docs for more information, but the upshot is:
 ```bash
 # In a development environment, run the following to migrate a local database
 # up:
-pnpm prisma migrate dev
+npm run prisma migrate dev
 ```
 
 Refer to Prisma's docs for information on migrating a production database.
