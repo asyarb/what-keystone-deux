@@ -15,7 +15,6 @@ const client = new JellyCommands({
   },
 
   debug: DEBUG,
-  cache: !IS_DEV,
 })
 
 client.login(DISCORD_TOKEN)
