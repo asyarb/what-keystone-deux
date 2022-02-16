@@ -1,7 +1,6 @@
 import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
-import { IS_DEV } from "../env.js"
 import { noop } from "../utils/noop.js"
 
 export default command({
@@ -16,12 +15,12 @@ export default command({
     },
   ],
 
-  dev: IS_DEV,
+  defer: true,
   global: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content: "Something went wrong with this request.",
       })
     }
@@ -41,7 +40,7 @@ export default command({
       .catch(noop)
 
     if (!key) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content: `No keystone for ${character} was found.`,
       })
     }
@@ -51,7 +50,7 @@ export default command({
       guildName: interaction.guild?.name,
     })
 
-    return await interaction.reply({
+    return await interaction.editReply({
       content: `Deleted ${character}'s keystone!`,
       embeds: [embed],
     })

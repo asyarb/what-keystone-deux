@@ -41,15 +41,14 @@ export default command({
   ],
 
   global: true,
+  defer: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content: "Something went wrong with this request.",
       })
     }
-
-    await interaction.deferReply()
 
     const guild = await db.guild.upsert({
       create: {

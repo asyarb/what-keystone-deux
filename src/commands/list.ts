@@ -17,11 +17,12 @@ export default command({
     },
   ],
 
+  defer: true,
   global: true,
 
   run: async ({ interaction }) => {
     if (!interaction.guild) {
-      return await interaction.reply({
+      return await interaction.editReply({
         content: "Something went wrong with this request.",
       })
     }
@@ -35,6 +36,6 @@ export default command({
       sortedBy: sort,
     })
 
-    return await interaction.reply({ embeds: [embed] })
+    return await interaction.editReply({ embeds: [embed] })
   },
 })
