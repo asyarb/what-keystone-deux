@@ -10,12 +10,11 @@ interface CreateEmbedMessageArgs {
   guildDiscordId: string
   sortedBy?: "dungeon" | "level"
   sortDirection?: "asc" | "desc"
+  isFullDelete?: boolean
 }
 
 function createCharacterList(keys: Key[]) {
-  const characters = keys.map((key) => upperFirst(key.character)).join("\n")
-
-  return characters || "None"
+  return keys.map((key) => upperFirst(key.character)).join("\n") || "None"
 }
 
 function createDungeonList(keys: Key[]) {
@@ -31,12 +30,17 @@ export async function createEmbed({
   guildDiscordId,
   sortedBy = "level",
   sortDirection = "desc",
+  isFullDelete = false,
 }: CreateEmbedMessageArgs): Promise<MessageEmbed> {
-  //@ts-expect-error - Something weird with prisma types.
-  const keys = (await db.key.findMany({
-    where: { guildDiscordId: guildDiscordId },
-    orderBy: { [sortedBy]: sortDirection },
-  })) as Key[]
+  let keys: Key[] = []
+
+  if (!isFullDelete) {
+    //@ts-expect-error - Prisma weirdness
+    keys = await db.key.findMany({
+      where: { guildDiscordId: guildDiscordId },
+      orderBy: { [sortedBy]: sortDirection },
+    })
+  }
 
   return new MessageEmbed()
     .setColor("BLUE")

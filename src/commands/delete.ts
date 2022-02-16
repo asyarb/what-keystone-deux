@@ -2,6 +2,7 @@ import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
 import { IS_DEV } from "../env.js"
+import { noop } from "../utils/noop.js"
 
 export default command({
   name: "delete",
@@ -26,16 +27,18 @@ export default command({
     }
 
     const options = interaction.options
-    const character = options.getString("character", true)
+    const character = options.getString("character", true).toLowerCase()
 
-    const key = await db.key.delete({
-      where: {
-        character_guildDiscordId: {
-          character,
-          guildDiscordId: interaction.guild.id,
+    const key = await db.key
+      .delete({
+        where: {
+          character_guildDiscordId: {
+            character,
+            guildDiscordId: interaction.guild.id,
+          },
         },
-      },
-    })
+      })
+      .catch(noop)
 
     if (!key) {
       return await interaction.reply({
@@ -48,7 +51,7 @@ export default command({
       guildName: interaction.guild?.name,
     })
 
-    await interaction.reply({
+    return await interaction.reply({
       content: `Deleted ${character}'s keystone!`,
       embeds: [embed],
     })

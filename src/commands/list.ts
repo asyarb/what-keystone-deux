@@ -22,7 +22,11 @@ export default command({
   global: !IS_DEV,
 
   run: async ({ interaction }) => {
-    if (!interaction.guild) return
+    if (!interaction.guild) {
+      return await interaction.reply({
+        content: "Something went wrong with this request.",
+      })
+    }
 
     const options = interaction.options
     const sort = options.getString("sort", true) as "dungeon" | "level"
@@ -33,6 +37,6 @@ export default command({
       sortedBy: sort,
     })
 
-    await interaction.reply({ embeds: [embed] })
+    return await interaction.reply({ embeds: [embed] })
   },
 })

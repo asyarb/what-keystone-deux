@@ -64,7 +64,7 @@ export default command({
     })
 
     const options = interaction.options
-    const character = options.getString("character", true)
+    const character = options.getString("character", true).toLowerCase()
     const level = options.getInteger("level", true)
     const dungeon = options.getString("dungeon", true) as Dungeon
 
@@ -93,7 +93,7 @@ export default command({
       sortedBy: "level",
     })
 
-    await interaction.editReply({
+    return await interaction.editReply({
       content: `Added keystone for ${character}.`,
       embeds: [embed],
     })
