@@ -2,6 +2,7 @@ import { type Dungeon } from "@prisma/client"
 import { command } from "jellycommands"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
+import { upperFirst } from "../utils/upperFirst.js"
 
 export default command({
   name: "add",
@@ -92,7 +93,7 @@ export default command({
     })
 
     return await interaction.editReply({
-      content: `Added keystone for ${character}.`,
+      content: `Added keystone for ${upperFirst(character)}.`,
       embeds: [embed],
     })
   },

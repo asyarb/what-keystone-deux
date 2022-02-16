@@ -1,7 +1,7 @@
 import { event } from "jellycommands"
-import { info } from "../logger/info.js"
+import * as logger from "../logger.js"
 
 export default event({
   name: "ready",
-  run: () => info("What Keystone bot started!"),
+  run: () => logger.info("What Keystone bot started!"),
 })
