@@ -30,7 +30,7 @@ export default command({
 
   global: true,
 
-  run: async ({ interaction }) => {
+  run: async ({ interaction, client }) => {
     if (!interaction.guild) {
       return await interaction.reply({
         content: "Something went wrong with this request.",
@@ -61,11 +61,7 @@ export default command({
       where: { guildDiscordId: interaction.guild.id },
     })
 
-    const embed = await createEmbed({
-      guildDiscordId: interaction.guild.id,
-      guildName: interaction.guild?.name,
-      isFullDelete: true,
-    })
+    const embed = await createEmbed({ interaction, client, isFullDelete: true })
 
     const user = interaction.user.username
     const keysDeleted = result.count

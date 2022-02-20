@@ -1,75 +1,84 @@
-import { type Key } from "@prisma/client"
-import { MessageEmbed } from "discord.js"
-import { stripIndent } from "common-tags"
+import { type Key as DBKey, type Dungeon as DBDungeon } from "@prisma/client"
+import { type JellyCommands } from "jellycommands"
+import {
+  type CommandInteraction,
+  MessageEmbed,
+  EmbedFieldData,
+} from "discord.js"
 import { db } from "../db/client.js"
 import { upperFirst } from "../utils/upperFirst.js"
-import { getDungeonName } from "../db/dungeon.js"
+import * as Dungeon from "../db/dungeon.js"
+import { WKEmojis } from "./emoji.js"
+import { times } from "../utils/times.js"
+
+const EMPTY_FIELD: EmbedFieldData = {
+  name: "\u200b",
+  value: "\u200b",
+  inline: true,
+}
+
+function createEmbedValue(keys: DBKey[]): string {
+  if (keys.length <= 0) return "None\n\u200b"
+
+  const value = keys
+    .sort((a, b) => b.level - a.level)
+    .map((key) => `\`${key.level}\` **${upperFirst(key.character)}** `)
+    .join("\n")
+
+  return value + "\n\u200b"
+}
+
+function dungeonEmbedField(
+  guildKeys: DBKey[],
+  dungeon: DBDungeon,
+  emojis: WKEmojis,
+): EmbedFieldData {
+  const dungeonName = Dungeon.toDisplayName(dungeon)
+  const emoji = emojis.getFromDungeon(dungeon)
+  const keys = guildKeys.filter((key) => key.dungeon === dungeon)
+
+  return {
+    name: `${emoji} __**${dungeonName}**__`,
+    value: createEmbedValue(keys),
+    inline: true,
+  }
+}
 
 interface CreateEmbedMessageArgs {
-  guildName: string
-  guildDiscordId: string
-  sortedBy?: "dungeon" | "level"
-  sortDirection?: "asc" | "desc"
   isFullDelete?: boolean
-}
-
-function createCharacterList(keys: Key[]) {
-  return keys.map((key) => upperFirst(key.character)).join("\n") || "None"
-}
-
-function createDungeonList(keys: Key[]) {
-  return keys.map((key) => getDungeonName(key.dungeon)).join("\n") || "None"
-}
-
-function createLevelList(keys: Key[]) {
-  return keys.map((key) => key.level).join("\n") || "None"
+  interaction: CommandInteraction
+  client: JellyCommands
 }
 
 export async function createEmbed({
-  guildName,
-  guildDiscordId,
-  sortedBy = "level",
-  sortDirection = "desc",
   isFullDelete = false,
+  client,
+  interaction,
 }: CreateEmbedMessageArgs): Promise<MessageEmbed> {
-  let keys: Key[] = []
+  let keys: DBKey[] = []
+
+  const guild = interaction.guild!
+  const emojis = new WKEmojis(client)
 
   if (!isFullDelete) {
-    //@ts-expect-error - Prisma weirdness
+    // @ts-expect-error - Prisma weirdness
     keys = await db.key.findMany({
-      where: { guildDiscordId: guildDiscordId },
-      orderBy: { [sortedBy]: sortDirection },
+      where: { guildDiscordId: guild.id },
     })
   }
 
+  // Helper for creating embed fields per dungeon
+  const createEmbedField = (dungeon: DBDungeon) =>
+    dungeonEmbedField(keys, dungeon, emojis)
+
+  // Add empty fields to ensure that embed content columns are always aligned.
+  const emptyFields = times(3 - (Dungeon.asArray.length % 3), () => EMPTY_FIELD)
+
   return new MessageEmbed()
     .setColor("BLUE")
-    .setTitle(`Keystones for ${guildName}`)
-    .setDescription(
-      stripIndent`
-        Sorted by ${sortedBy}.
-
-        Use the /list command to see this output with 
-        different sort criteria.
-      `,
-    )
-    .addFields([
-      {
-        name: "Character",
-        value: createCharacterList(keys),
-        inline: true,
-      },
-      {
-        name: "Dungeon",
-        value: createDungeonList(keys),
-        inline: true,
-      },
-      {
-        name: "Level",
-        value: createLevelList(keys),
-        inline: true,
-      },
-    ])
+    .setTitle(`Keystones for ${guild.name}`)
+    .setDescription("Grouped by dungeon. Sorted by level.\n\u200b")
+    .addFields(...Dungeon.asArray.map(createEmbedField), ...emptyFields)
     .setFooter({ text: "What Keystone Bot" })
     .setTimestamp()
 }

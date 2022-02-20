@@ -1,6 +1,6 @@
-import { type Dungeon } from "@prisma/client"
+import { type Dungeon as DBDungeon } from "@prisma/client"
 
-const DUNGEON_NAMES: Record<Dungeon, string> = {
+const DUNGEON_DISPLAY_NAMES: Record<DBDungeon, string> = {
   DE_OTHER_SIDE: "De Other Side",
   HALLS_OF_ATONEMENT: "Halls of Atonement",
   MISTS_OF_TIRNA_SCITHE: "Mists of Tirna Scithe",
@@ -13,6 +13,12 @@ const DUNGEON_NAMES: Record<Dungeon, string> = {
   THEATER_OF_PAIN: "Theater of Pain",
 }
 
-export function getDungeonName(dungeon: Dungeon): string {
-  return DUNGEON_NAMES[dungeon]
+const DUNGEONS = Object.keys(DUNGEON_DISPLAY_NAMES) as DBDungeon[]
+
+export const asArray = DUNGEONS.filter(
+  (dungeon) => dungeon !== "TAZAVESH_LOWER" && dungeon !== "TAZAVESH_UPPER",
+)
+
+export function toDisplayName(dungeon: DBDungeon): string {
+  return DUNGEON_DISPLAY_NAMES[dungeon]
 }
