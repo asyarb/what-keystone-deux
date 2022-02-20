@@ -19,7 +19,7 @@ export default command({
   defer: true,
   global: true,
 
-  run: async ({ interaction }) => {
+  run: async ({ interaction, client }) => {
     if (!interaction.guild) {
       return await interaction.editReply({
         content: "Something went wrong with this request.",
@@ -46,10 +46,7 @@ export default command({
       })
     }
 
-    const embed = await createEmbed({
-      guildDiscordId: interaction.guild.id,
-      guildName: interaction.guild?.name,
-    })
+    const embed = await createEmbed({ interaction, client })
 
     return await interaction.editReply({
       content: `Deleted ${upperFirst(character)}'s keystone!`,
