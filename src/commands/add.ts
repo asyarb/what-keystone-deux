@@ -43,7 +43,7 @@ export default command({
   global: true,
   defer: true,
 
-  run: async ({ interaction }) => {
+  run: async ({ interaction, client }) => {
     if (!interaction.guild) {
       return await interaction.editReply({
         content: "Something went wrong with this request.",
