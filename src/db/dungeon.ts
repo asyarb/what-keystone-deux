@@ -8,16 +8,12 @@ const DUNGEON_DISPLAY_NAMES: Record<DBDungeon, string> = {
   PLAGUEFALL: "Plaguefall",
   SANGUINE_DEPTHS: "Sanguine Depths",
   SPIRES_OF_ASCENSION: "Spires of Ascension",
-  TAZAVESH_LOWER: "Tazavesh Lower (Beta)",
-  TAZAVESH_UPPER: "Tazavesh Upper (Beta)",
+  TAZAVESH_STREETS_OF_WONDER: "Tazavesh: Streets of Wonder",
+  TAZAVESH_SOLEAHS_GAMBIT: "Tazavesh: So'leah's Gambit",
   THEATER_OF_PAIN: "Theater of Pain",
 }
 
-const DUNGEONS = Object.keys(DUNGEON_DISPLAY_NAMES) as DBDungeon[]
-
-export const asArray = DUNGEONS.filter(
-  (dungeon) => dungeon !== "TAZAVESH_LOWER" && dungeon !== "TAZAVESH_UPPER",
-)
+export const asArray = Object.keys(DUNGEON_DISPLAY_NAMES) as DBDungeon[]
 
 export function toDisplayName(dungeon: DBDungeon): string {
   return DUNGEON_DISPLAY_NAMES[dungeon]

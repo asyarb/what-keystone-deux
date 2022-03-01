@@ -24,6 +24,8 @@ type WKEmojiNames =
   | "theatre_of_pain"
   | "warlock"
   | "warrior"
+  | "tazavesh_soleah"
+  | "tazavesh_streets"
 
 const DUNGEON_EMOJIS: Record<Dungeon, WKEmojiNames> = {
   DE_OTHER_SIDE: "de_other_side",
@@ -33,8 +35,8 @@ const DUNGEON_EMOJIS: Record<Dungeon, WKEmojiNames> = {
   PLAGUEFALL: "plaguefall",
   SANGUINE_DEPTHS: "sanguine_depths",
   SPIRES_OF_ASCENSION: "spires_of_ascension",
-  TAZAVESH_LOWER: "warlock",
-  TAZAVESH_UPPER: "warlock",
+  TAZAVESH_STREETS_OF_WONDER: "tazavesh_streets",
+  TAZAVESH_SOLEAHS_GAMBIT: "tazavesh_soleah",
   THEATER_OF_PAIN: "theatre_of_pain",
 }
 
