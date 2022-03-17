@@ -62,4 +62,5 @@ Refer to their docs for more information, but the upshot is:
 npm run prisma migrate dev
 ```
 
-Refer to Prisma's docs for information on migrating a production database.
+Refer to Prisma's docs for information on migrating and setting up a production
+database.
