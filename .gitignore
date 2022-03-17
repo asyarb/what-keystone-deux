@@ -6,3 +6,4 @@ edgeql-js/
 .env
 
 src/db/generated
+tsconfig.tsbuildinfo
