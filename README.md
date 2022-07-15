@@ -15,8 +15,6 @@ techstack:
 
 - [TypeScript](https://www.typescriptlang.org/) – Language
 - [DiscordJS](https://discord.js.org/#/) – OO Discord Library
-- [JellyCommands](https://ghostdevbusiness.gitbook.io/jellycommands/) – Easy
-  Slash Command Registration w/ DiscordJS
 - [tsup](https://tsup.egoist.sh/) – Bundler/Transpiler
 - [Prisma](https://www.prisma.io/docs/) – Database tooling (ORM, Migrations)
 - [Railway](https://docs.railway.app/) – Hosting
