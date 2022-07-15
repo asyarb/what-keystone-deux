@@ -1,4 +1,5 @@
 import { Intents, Client } from "discord.js"
+import { stripIndents } from "common-tags"
 import { DISCORD_TOKEN } from "./env.js"
 import { commands } from "./commands/index.js"
 import { events } from "./events/index.js"
@@ -21,6 +22,11 @@ client.on("interactionCreate", async (interaction) => {
   }
 
   try {
+    logger.info(stripIndents`
+      Received interaction: ${command.name}
+      Interaction data:     ${interaction.options.data}
+    `)
+
     await command.run({ client, interaction })
   } catch (error) {
     const reply = interaction.deferred
