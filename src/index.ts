@@ -2,7 +2,7 @@ import { Intents, Client } from "discord.js"
 import { DISCORD_TOKEN } from "./env.js"
 import { commands } from "./commands/index.js"
 import { events } from "./events/index.js"
-import { WhatKeystoneError } from "./error.js"
+import * as logger from "./logger.js"
 
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -27,14 +27,7 @@ client.on("interactionCreate", async (interaction) => {
       ? interaction.editReply
       : interaction.reply
 
-    if (error instanceof WhatKeystoneError) {
-      console.error(error.stack)
-      await reply({ content: error.message })
-
-      return
-    }
-
-    console.error(error)
+    logger.error(error)
 
     await reply({ content: "Something went wrong. Please try again." })
   }
