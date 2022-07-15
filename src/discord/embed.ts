@@ -1,9 +1,9 @@
 import { type Key as DBKey, type Dungeon as DBDungeon } from "@prisma/client"
-import { type JellyCommands } from "jellycommands"
 import {
   type CommandInteraction,
   MessageEmbed,
   EmbedFieldData,
+  Client,
 } from "discord.js"
 import { db } from "../db/client.js"
 import { upperFirst } from "../utils/upperFirst.js"
@@ -47,7 +47,7 @@ function dungeonEmbedField(
 interface CreateEmbedMessageArgs {
   isFullDelete?: boolean
   interaction: CommandInteraction
-  client: JellyCommands
+  client: Client
 }
 
 export async function createEmbed({

@@ -1,6 +1,5 @@
 import { Dungeon } from "@prisma/client"
-import { type GuildEmoji } from "discord.js"
-import { type JellyCommands } from "jellycommands"
+import { type GuildEmoji, type Client } from "discord.js"
 import { DEV_GUILD_ID, EMOJI_GUILD_ID } from "../env.js"
 
 type WKEmojiNames =
@@ -43,7 +42,7 @@ const DUNGEON_EMOJIS: Record<Dungeon, WKEmojiNames> = {
 export class WKEmojis {
   #emojis: Record<WKEmojiNames, GuildEmoji>
 
-  constructor(client: JellyCommands) {
+  constructor(client: Client) {
     const emojiGuild = client.guilds.cache.get(EMOJI_GUILD_ID ?? DEV_GUILD_ID)
     if (!emojiGuild) {
       throw new Error("Unable to find server that stores our Emojis!")

@@ -4,13 +4,17 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+
     "noEmit": true,
+
     "allowJs": false,
     "strict": true,
     "strictNullChecks": true,
-    "incremental": true,
+    "noUncheckedIndexedAccess": true,
     "noImplicitAny": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true
+
+    "incremental": true,
   }
 }

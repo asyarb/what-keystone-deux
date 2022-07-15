@@ -1,12 +1,11 @@
-import { command } from "jellycommands"
+import { Command } from "../discord/command.js"
 import { createEmbed } from "../discord/embed.js"
 
-export default command({
+export default new Command({
   name: "list",
   description: "Display the list of keystones.",
 
   defer: true,
-  global: true,
 
   run: async ({ interaction, client }) => {
     if (!interaction.guild) {

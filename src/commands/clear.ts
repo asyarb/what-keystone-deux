@@ -1,5 +1,5 @@
 import { MessageActionRow, MessageButton } from "discord.js"
-import { command } from "jellycommands"
+import { Command } from "../discord/command.js"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
 import { pluralize } from "../utils/pluralize.js"
@@ -24,11 +24,9 @@ const BUTTON_ROW = new MessageActionRow().addComponents(
   CANCEL_BUTTON,
 )
 
-export default command({
+export default new Command({
   name: "clear",
   description: "Delete all Keystones for your guild.",
-
-  global: true,
 
   run: async ({ interaction, client }) => {
     if (!interaction.guild) {

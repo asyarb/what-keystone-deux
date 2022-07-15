@@ -1,15 +1,16 @@
-import { command } from "jellycommands"
+import { ApplicationCommandOptionType } from "discord-api-types/v10.js"
+import { Command } from "../discord/command.js"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"
 import { noop } from "../utils/noop.js"
 import { upperFirst } from "../utils/upperFirst.js"
 
-export default command({
+export default new Command({
   name: "delete",
   description: "Delete a Keystone.",
   options: [
     {
-      type: "STRING",
+      type: ApplicationCommandOptionType.String,
       name: "character",
       description: "The character whose keystone to delete.",
       required: true,
@@ -17,7 +18,6 @@ export default command({
   ],
 
   defer: true,
-  global: true,
 
   run: async ({ interaction, client }) => {
     if (!interaction.guild) {
