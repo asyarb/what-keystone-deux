@@ -7,14 +7,15 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
 
-    "noEmit": true,
-
     "allowJs": false,
     "strict": true,
     "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
 
     "incremental": true,
+    "noEmit": true,
   }
 }

@@ -30,16 +30,12 @@
     "common-tags": "^1.8.2",
     "discord-api-types": "^0.36.2",
     "discord.js": "^13.8.1",
-    "jellycommands": "^1.0.0-next.19",
     "kleur": "^4.1.5"
   },
   "devDependencies": {
     "@types/common-tags": "^1.8.1",
     "@types/node": "^18.0.4",
-    "@typescript-eslint/eslint-plugin": "^5.15.0",
-    "@typescript-eslint/parser": "^5.15.0",
     "dotenv": "^16.0.1",
-    "eslint": "^8.11.0",
     "prettier": "^2.6.0",
     "prisma": "^4.0.0",
     "tsup": "^6.1.3",
