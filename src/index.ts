@@ -1,19 +1,19 @@
 import { Intents, Client } from "discord.js"
 import { DISCORD_TOKEN } from "./env.js"
-import { Commands } from "./commands/index.js"
-import { Events } from "./events/index.js"
+import { commands } from "./commands/index.js"
+import { events } from "./events/index.js"
 import { WhatKeystoneError } from "./error.js"
 
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 })
 
-Events.all().forEach((e) => client.on(e.name, e.run))
+events.forEach((event) => client.on(event.name, event.run))
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return
 
-  const command = Commands.get(interaction.commandName)
+  const command = commands.get(interaction.commandName)
   if (!command) return
 
   if (command.defer) {

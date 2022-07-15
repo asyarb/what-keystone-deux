@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord-api-types/v10.js"
+import { ApplicationCommandOptionType } from "discord-api-types/v10"
 import { Command } from "../discord/command.js"
 import { db } from "../db/client.js"
 import { createEmbed } from "../discord/embed.js"

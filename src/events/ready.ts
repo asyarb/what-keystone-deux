@@ -1,6 +1,6 @@
 import { REST as DiscordREST } from "@discordjs/rest"
 import { Routes as DiscordRoutes } from "discord-api-types/v10"
-import { Commands } from "../commands/index.js"
+import { commands } from "../commands/index.js"
 import { DEV_GUILD_ID, DISCORD_TOKEN, DEV } from "../env.js"
 import { Event } from "../discord/event.js"
 import * as logger from "../logger.js"
@@ -13,12 +13,12 @@ export default new Event({
   run: async (client) => {
     logger.info("What Keystone bot started!")
 
-    const existingCommands = await client.application.commands.fetch()
-    const commands = Commands.all()
+    const allCommands = Array.from(commands.values())
+    const discordCommands = await client.application.commands.fetch()
 
     // If every command is already registered, skip registering.
     if (
-      commands.every((c) => existingCommands.some((ec) => ec.name === c.name))
+      allCommands.every((c) => discordCommands.some((ec) => ec.name === c.name))
     ) {
       logger.info("No new commands to register.")
 
@@ -32,7 +32,7 @@ export default new Event({
       ? DiscordRoutes.applicationGuildCommands(auth.clientId, DEV_GUILD_ID)
       : DiscordRoutes.applicationCommands(auth.clientId)
 
-    const body = Commands.all().map((c) => c.toCommandData())
+    const body = allCommands.map((c) => c.toCommandData())
 
     await discordApi.put(route, { body })
 

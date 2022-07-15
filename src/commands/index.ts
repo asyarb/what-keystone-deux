@@ -4,20 +4,7 @@ import _delete from "./delete.js"
 import list from "./list.js"
 import { Command } from "../discord/command.js"
 
-const COMMANDS = [add, clear, _delete, list]
+const _commands = [add, clear, _delete, list]
 
-const commands = COMMANDS.reduce((acc, curr) => {
-  acc[curr.name] = curr
-
-  return acc
-}, {} as Record<string, Command>)
-
-export class Commands {
-  static get(name: string): Command | undefined {
-    return commands[name]
-  }
-
-  static all() {
-    return COMMANDS
-  }
-}
+export const commands = new Map<string, Command>()
+_commands.forEach((c) => commands.set(c.name, c))
