@@ -13,18 +13,16 @@ export default new Event({
   run: async (client) => {
     logger.info("What Keystone bot started!")
 
-    const cachedCommands = Array.from(
-      client.application.commands.cache.values(),
-    )
+    const existingCommands = await client.application.commands.fetch()
     const commands = Commands.all()
 
     // If every command is already registered, skip registering.
     if (
-      commands.every((c) =>
-        cachedCommands.some((cachedC) => cachedC.name === c.name),
-      )
+      commands.every((c) => existingCommands.some((ec) => ec.name === c.name))
     ) {
-      return logger.info("No new commands to register.")
+      logger.info("No new commands to register.")
+
+      return
     }
 
     logger.info("Found new commands! Registering...")
