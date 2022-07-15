@@ -1,20 +1,43 @@
-import { JellyCommands } from "jellycommands"
-import { Intents } from "discord.js"
-import { DEBUG, DEV_GUILD_ID, DISCORD_TOKEN, IS_DEV } from "./env.js"
+import { Intents, Client } from "discord.js"
+import { DISCORD_TOKEN } from "./env.js"
+import { Commands } from "./commands/index.js"
+import { Events } from "./events/index.js"
+import { WhatKeystoneError } from "./error.js"
 
-const client = new JellyCommands({
-  commands: "dist/commands",
-  events: "dist/events",
-  clientOptions: {
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
-  },
+const client = new Client({
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+})
 
-  dev: {
-    global: IS_DEV,
-    guilds: [DEV_GUILD_ID],
-  },
+Events.all().forEach((e) => client.on(e.name, e.run))
 
-  debug: DEBUG,
+client.on("interactionCreate", async (interaction) => {
+  if (!interaction.isCommand()) return
+
+  const command = Commands.get(interaction.commandName)
+  if (!command) return
+
+  if (command.defer) {
+    await interaction.deferReply()
+  }
+
+  try {
+    await command.run({ client, interaction })
+  } catch (error) {
+    const reply = interaction.deferred
+      ? interaction.editReply
+      : interaction.reply
+
+    if (error instanceof WhatKeystoneError) {
+      console.error(error.stack)
+      await reply({ content: error.message })
+
+      return
+    }
+
+    console.error(error)
+
+    await reply({ content: "Something went wrong. Please try again." })
+  }
 })
 
 client.login(DISCORD_TOKEN)

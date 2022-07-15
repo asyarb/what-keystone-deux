@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {
-    "no-console": ["warn", { allow: ["info", "warn", "error"] }],
+    "no-console": ["warn", { allow: ["info", "warn", "error", "debug"] }],
     "no-debugger": "error",
     "no-undef": "error",
     "padding-line-between-statements": [
