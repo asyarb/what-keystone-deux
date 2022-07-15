@@ -24,7 +24,7 @@ client.on("interactionCreate", async (interaction) => {
   try {
     logger.info(stripIndents`
       Received interaction: ${command.name}
-      Interaction data:     ${interaction.options.data}
+      Interaction data:     ${JSON.stringify(interaction.options.data ?? [])}
     `)
 
     await command.run({ client, interaction })
