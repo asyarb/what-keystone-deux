@@ -14,19 +14,22 @@ events.forEach((event) => client.on(event.name, event.run))
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isCommand()) return
 
+  logger.info(stripIndents`
+    Received interaction: ${interaction.commandName}
+    Interaction data:     ${JSON.stringify(interaction.options.data ?? [])}
+  `)
+
   const command = commands.get(interaction.commandName)
-  if (!command) return
+
+  if (!command) {
+    return await interaction.reply({ content: "Did not receive a command!" })
+  }
 
   if (command.defer) {
     await interaction.deferReply()
   }
 
   try {
-    logger.info(stripIndents`
-      Received interaction: ${command.name}
-      Interaction data:     ${JSON.stringify(interaction.options.data ?? [])}
-    `)
-
     await command.run({ client, interaction })
   } catch (error) {
     const reply = interaction.deferred
